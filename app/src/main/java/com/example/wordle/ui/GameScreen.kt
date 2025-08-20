@@ -106,63 +106,63 @@ private fun MessageBar(message: String) {
 
 @Composable
 private fun Keyboard(onKey: (Char) -> Unit, onEnter: () -> Unit, onBackspace: () -> Unit, hints: Map<Char, LetterResult>) {
-	Column(
-		Modifier.fillMaxWidth().padding(8.dp),
-		verticalArrangement = Arrangement.spacedBy(6.dp)
-	) {
-		val rows = listOf(
-			"qwertyuiop",
-			"asdfghjkl",
-			"zxcvbnm"
-		)
-		rows.forEachIndexed { idx, r ->
-			Row(
-				Modifier.fillMaxWidth(),
-				horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.CenterHorizontally)
-			) {
-				if (idx == 2) {
-					KeyboardKey("ENTER", 64.dp) { onEnter() }
-				}
-				r.forEach { ch ->
-					val color = when (hints[ch]) {
-						LetterResult.CORRECT -> Color(0xFF6AAA64)
-						LetterResult.PRESENT -> Color(0xFFC9B458)
-						LetterResult.ABSENT -> Color(0xFF3A3A3C)
-						null -> Color(0xFF606062)
-					}
-					KeyboardKey(ch.uppercase(), 36.dp, color) { onKey(ch) }
-				}
-				if (idx == 2) {
-					KeyboardKey("⌫", 64.dp) { onBackspace() }
-				}
-			}
-		}
-	}
+    Column(
+        Modifier.fillMaxWidth().padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        val rows = listOf(
+            "qwertyuiop",
+            "asdfghjkl",
+            "zxcvbnm"
+        )
+        rows.forEachIndexed { idx, r ->
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(3.dp)
+            ) {
+                if (idx == 2) {
+                    KeyboardKey("ENTER", weight = 1.5f) { onEnter() }
+                }
+                r.forEach { ch ->
+                    val color = when (hints[ch]) {
+                        LetterResult.CORRECT -> Color(0xFF6AAA64)
+                        LetterResult.PRESENT -> Color(0xFFC9B458)
+                        LetterResult.ABSENT -> Color(0xFF3A3A3C)
+                        null -> Color(0xFF606062)
+                    }
+                    KeyboardKey(ch.uppercase(), weight = 1f, color) { onKey(ch) }
+                }
+                if (idx == 2) {
+                    KeyboardKey("⌫", weight = 1.5f) { onBackspace() }
+                }
+            }
+        }
+    }
 }
 
 @Composable
 private fun RowScope.KeyboardKey(
-	label: String,
-	width: Dp,
-	color: Color = Color(0xFF787C7E),
-	onClick: () -> Unit
+    label: String,
+    weight: Float,
+    color: Color = Color(0xFF787C7E),
+    onClick: () -> Unit
 ) {
-	Button(
-		onClick = onClick,
-		modifier = Modifier
-			.width(width)
-			.height(48.dp),
-		colors = ButtonDefaults.buttonColors(
-			containerColor = color,
-			contentColor = Color.White
-		),
-		contentPadding = PaddingValues(0.dp)
-	) {
-		Text(
-			text = label,
-			fontSize = 14.sp,
-			fontWeight = FontWeight.Bold,
-			textAlign = TextAlign.Center
-		)
-	}
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .weight(weight)
+            .height(48.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = color,
+            contentColor = Color.White
+        ),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+    }
 }
